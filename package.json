@@ -1,0 +1,17 @@
+{
+  "name": "aero",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "icons": "node scripts/generate-icons.mjs"
+  },
+  "devDependencies": {
+    "png2icons": "^2.0.1",
+    "sharp": "^0.35.5",
+    "typescript": "^7.0.2"
+  }
+}
