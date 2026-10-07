@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aero</title>
+    <style>
+      body { margin: 0; overflow: hidden; background: transparent; }
+      /* The Pill is automatically styled by its Shadow DOM */
+    </style>
+  </head>
+  <body>
+    <!-- Overlay UI container -->
+    <div id="overlay-root" style="display: none;">
+      <aero-pill id="aero-pill"></aero-pill>
+    </div>
+
+    <!-- Camera UI container -->
+    <div id="camera-root" style="display: none;">
+      <video id="webcam" playsinline></video>
+      <canvas id="output"></canvas>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
