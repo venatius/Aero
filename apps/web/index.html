@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Aero Web Demo</title>
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#06080F" />
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, "SF Pro", "Segoe UI", Inter, Roboto, sans-serif;
+        background: #000;
+        color: #fff;
+        overflow: hidden;
+      }
+      .app-container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      .tabs {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        background: #111;
+        justify-content: center;
+      }
+      .tab {
+        padding: 8px 16px;
+        border-radius: 20px;
+        background: #222;
+        cursor: pointer;
+        user-select: none;
+      }
+      .tab.active {
+        background: #fff;
+        color: #000;
+      }
+      .view {
+        flex: 1;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        position: relative;
+      }
+      .view.active {
+        display: flex;
+      }
+      
+      /* Slides */
+      #slide-content {
+        font-size: 48px;
+        font-weight: bold;
+      }
+      
+      /* Music */
+      .music-player {
+        text-align: center;
+      }
+      .music-art {
+        width: 200px;
+        height: 200px;
+        background: linear-gradient(45deg, #f093fb, #f5576c);
+        border-radius: 12px;
+        margin: 0 auto 20px;
+      }
+      
+      /* Photos */
+      .photo-gallery img {
+        max-width: 100%;
+        max-height: 80vh;
+        transition: transform 0.2s;
+      }
+
+      /* Onboarding Overlay */
+      #onboarding {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.9);
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      #onboarding button {
+        margin-top: 20px;
+        padding: 12px 24px;
+        font-size: 18px;
+        background: #fff;
+        color: #000;
+        border: none;
+        border-radius: 24px;
+        cursor: pointer;
+      }
+
+      /* Hidden camera elements */
+      #camera-root {
+        position: absolute;
+        top: -9999px; left: -9999px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="onboarding">
+      <h1>Welcome to Aero</h1>
+      <p>Raise your palm to the camera to start.</p>
+      <button id="start-btn">Enable Camera</button>
+    </div>
+
+    <div class="app-container">
+      <div class="tabs">
+        <div class="tab active" data-tab="slides">Slides</div>
+        <div class="tab" data-tab="music">Music</div>
+        <div class="tab" data-tab="photos">Photos</div>
+      </div>
+      
+      <div id="slides" class="view active">
+        <div id="slide-content">Slide 1 / 6</div>
+      </div>
+      
+      <div id="music" class="view">
+        <div class="music-player">
+          <div class="music-art"></div>
+          <div id="track-name">Track 1</div>
+          <div id="play-status">Paused</div>
+          <div id="vol-status">Volume: 100%</div>
+        </div>
+      </div>
+      
+      <div id="photos" class="view">
+        <div class="photo-gallery">
+          <img id="photo-img" src="https://picsum.photos/800/600?random=1" />
+        </div>
+      </div>
+    </div>
+
+    <div id="camera-root">
+      <video id="webcam" playsinline></video>
+      <canvas id="output"></canvas>
+    </div>
+
+    <aero-pill id="aero-pill"></aero-pill>
+
+    <script type="module" src="/src/main.ts"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(err => {
+            console.log('SW registration failed: ', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
