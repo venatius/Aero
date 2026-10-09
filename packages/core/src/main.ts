@@ -9,7 +9,6 @@ const gestureSpan = document.getElementById('current-gesture') as HTMLSpanElemen
 
 async function init() {
   const vision = new AeroVision(video, canvas);
-  const pill = document.getElementById('aero-pill') as AeroPill;
   
   function logEvent(msg: string) {
     const el = document.createElement('div');
@@ -17,6 +16,8 @@ async function init() {
     el.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
     logDiv.prepend(el);
   }
+
+  const pill = document.getElementById('aero-pill') as AeroPill;
 
   vision.addEventListener(event => {
     pill.showEvent(event);
@@ -28,14 +29,21 @@ async function init() {
   });
 
   try {
-    await vision.initialize('/assets', '/assets/gesture_recognizer.task');
+    await vision.initialize(
+      '/assets',
+      '/assets/gesture_recognizer.task'
+    );
     await vision.start();
+    
+    // Update current gesture display continuously
     setInterval(() => {
       gestureSpan.innerText = vision.getCurrentGesture();
       pill.drawSkeleton(vision.getLandmarks());
     }, 100);
+    
   } catch (e) {
     console.error(e);
+    logEvent(`Error: ${e}`);
   }
 }
 
